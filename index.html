@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>শিক্ষার্থী আইডি কার্ড সিস্টেম</title>
+    <title>Students info</title>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -28,7 +28,7 @@
             font-family: 'Hind Siliguri', sans-serif;
             background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
             color: var(--text-primary);
-            min-height: 100vh;
+            min-height: 90vh;
             padding: 20px;
         }
         .container {
@@ -115,6 +115,1214 @@
         }
         .student-table tr:hover {
             background: rgba(59, 130, 246, 0.1);
+        }
+        .student-table tr:last-child td {
+            border-bottom: none;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(59, 130, 246, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        .id-card-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .id-card-container.active {
+            display: flex;
+        }
+        #id-card-wrapper {
+            width: 100%;
+            max-width: 500px;
+            height: 85vh;
+            max-height: 90vh;
+            position: relative;
+        }
+        .close-card-btn {
+            position: absolute;
+            top: 8px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 10;
+        }
+        .close-card-btn:hover {
+            color: var(--error-color);
+        }
+        .instructions {
+            position: absolute;
+            bottom: 12px;
+            width: 100%;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            pointer-events: none;
+            user-select: none;
+        }
+        .password-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            border-radius: 15px;
+        }
+        .password-modal-overlay.active {
+            display: flex;
+        }
+        .password-modal {
+            width: 90%;
+            max-width: 400px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            animation: modalFadeIn 0.3s ease;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close-btn:hover {
+            color: var(--text-primary);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        .btn-block {
+            width: 100%;
+        }
+        .message {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .student-data-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 4000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .student-data-modal.active {
+            display: flex;
+        }
+        .student-data-content {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            animation: modalFadeIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .student-data-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .student-data-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        .student-data-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .student-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .info-item {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .full-width {
+            grid-column: span 2;
+        }
+        .student-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .student-table th,
+            .student-table td {
+                padding: 12px 10px;
+                font-size: 0.9rem;
+            }
+            #id-card-wrapper {
+                height: 80vh;
+            }
+            .password-modal {
+                width: 95%;
+                padding: 20px;
+            }
+            .student-info-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .student-data-content {
+                padding: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .student-table th,
+            .student-table td {
+                padding: 10px 8px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>শিক্ষার্থীদের ইনফরমেশন</h1>
+            <p class="subtitle">ময়মনসিংহ পলিটেকনিক ইনস্টিটিউট</p>
+        </header>
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="নাম বা রোল দিয়ে খুঁজুন...">
+            </div>
+        </div>
+        <div class="table-container">
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+            </div>
+            <table class="student-table" id="studentTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>রোল নম্বর</th>
+                        <th>নাম</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTableBody">
+                </tbody>
+            </table>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-user-slash"></i>
+                <p>কোন শিক্ষার্থী পাওয়া যায়নি</p>
+            </div>
+        </div>
+    </div>
+    <div class="id-card-container" id="idCardContainer">
+        <div id="id-card-wrapper">
+            <button class="close-card-btn" id="closeIdCard">&times;</button>
+            <div class="instructions">ঘোরাতে ড্র্যাগ করুন। বিস্তারিত তথ্য দেখতে <br> সিম চিপ স্লট এ ক্লিক করুন।</div>
+            
+            <div class="password-modal-overlay" id="passwordModalOverlay">
+                <div class="password-modal">
+                    <div class="modal-header">
+                        <h3 class="modal-title">পাসওয়ার্ড প্রবেশ করুন</h3>
+                        <button class="close-btn" id="closePasswordModal">&times;</button>
+                    </div>
+                    <div id="passwordMessage"></div>
+                    <div class="form-group">
+                        <label class="form-label" for="passwordInput">পাসওয়ার্ড:</label>
+                        <input type="password" class="form-input" id="passwordInput" placeholder="পাসওয়ার্ড লিখুন">
+                    </div>
+                    <button class="btn btn-primary btn-block" id="verifyPasswordBtn">যাচাই করুন</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="student-data-modal" id="studentDataModal">
+        <div class="student-data-content">
+            <div class="student-data-header">
+                <h2 class="student-data-title">শিক্ষার্থীর তথ্য</h2>
+                <p class="student-data-subtitle">ময়মনসিংহ পলিটেকনিক ইনস্টিটিউট</p>
+            </div>
+            
+            <div class="student-info-grid" id="studentInfoGrid">
+            </div>
+            
+            <div class="student-actions">
+                <button class="btn btn-primary" id="closeStudentDataModal">বন্ধ করুন</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let studentsData = [];
+        let filteredStudents = [];
+        let selectedStudent = null;
+        let scene, camera, renderer, card;
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let autoRotate = true;
+        let isCardBackVisible = false;
+        
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const studentTable = document.getElementById('studentTable');
+        const studentTableBody = document.getElementById('studentTableBody');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const idCardContainer = document.getElementById('idCardContainer');
+        const closeIdCard = document.getElementById('closeIdCard');
+        const idCardWrapper = document.getElementById('id-card-wrapper');
+        
+        const passwordModalOverlay = document.getElementById('passwordModalOverlay');
+        const closePasswordModal = document.getElementById('closePasswordModal');
+        const passwordMessage = document.getElementById('passwordMessage');
+        const passwordInput = document.getElementById('passwordInput');
+        const verifyPasswordBtn = document.getElementById('verifyPasswordBtn');
+        
+        const studentDataModal = document.getElementById('studentDataModal');
+        const studentInfoGrid = document.getElementById('studentInfoGrid');
+        const closeStudentDataModal = document.getElementById('closeStudentDataModal');
+        
+        function getDepartmentShortName(department) {
+            if (!department) return 'N/A';
+            
+            const departmentMap = {
+                'Computer Science & Technology': 'CST',
+                'Civil Technology': 'CT',
+                'Mechanical Technology': 'MT',
+                'Electrical Technology': 'ET',
+                'Electronics Technology': 'EnT',
+                'Electro-Medical Technology': 'EMT',
+                'Power Technology': 'PT'
+            };
+            
+            if (Object.values(departmentMap).includes(department)) {
+                return department;
+            }
+            
+            for (const [fullName, shortName] of Object.entries(departmentMap)) {
+                if (department.toLowerCase().includes(fullName.toLowerCase())) {
+                    return shortName;
+                }
+            }
+            
+            const words = department.split(' ');
+            if (words.length >= 2) {
+                return words.slice(0, 3).map(word => word.charAt(0).toUpperCase()).join('');
+            }
+            
+            return department.substring(0, 3).toUpperCase();
+        }
+        
+        function normalizeColumnName(name) {
+            if (!name) return '';
+            return name.toLowerCase().trim()
+                .replace(/\s+/g, '_')
+                .replace(/[^\w\s]/gi, '');
+        }
+        
+        function getStudentData(student) {
+            const normalizedStudent = {};
+            
+            const columnMap = {};
+            for (const key in student) {
+                if (student.hasOwnProperty(key)) {
+                    const normalizedKey = normalizeColumnName(key);
+                    columnMap[normalizedKey] = key;
+                }
+            }
+            
+            normalizedStudent.name = student[columnMap.name] || student[columnMap['নাম']] || 'N/A';
+            normalizedStudent.roll = student[columnMap.roll] || student[columnMap['রোল']] || student[columnMap['রোল_নম্বর']] || 'N/A';
+            normalizedStudent.registration = student[columnMap.registration] || student[columnMap['registration']] || 'N/A';
+            normalizedStudent.dateOfBirth = student[columnMap.dateofbirth] || student[columnMap['date_of_birth']] || student[columnMap['জন্ম_তারিখ']] || 'N/A';
+            normalizedStudent.gender = student[columnMap.gender] || student[columnMap['gender']] || student[columnMap['লিঙ্গ']] || 'male';
+            normalizedStudent.bloodGroup = student[columnMap.bloodgroup] || student[columnMap['blood_group']] || student[columnMap['রক্তের_গ্রুপ']] || 'N/A';
+            normalizedStudent.mobileNumber = student[columnMap.mobilenumber] || student[columnMap['mobile_number']] || student[columnMap['মোবাইল_নাম্বার']] || 'N/A';
+            normalizedStudent.guardiansMobileNumber = student[columnMap.guardiansmobilenumber] || student[columnMap['guardians_mobile_number']] || student[columnMap['অভিভাবকের_মোবাইল_নাম্বার']] || 'N/A';
+            normalizedStudent.email = student[columnMap.email] || student[columnMap['email']] || 'N/A';
+            normalizedStudent.address = student[columnMap.address] || student[columnMap['address']] || student[columnMap['ঠিকানা']] || 'N/A';
+            normalizedStudent.semester = student[columnMap.semester] || student[columnMap['semester']] || student[columnMap['সেমিস্টার']] || 'N/A';
+            normalizedStudent.shift = student[columnMap.shift] || student[columnMap['shift']] || student[columnMap['শিফট']] || 'N/A';
+            normalizedStudent.department = student[columnMap.department] || student[columnMap['department']] || student[columnMap['বিভাগ']] || 'N/A';
+            normalizedStudent.group = student[columnMap.group] || student[columnMap['group']] || student[columnMap['গ্রুপ']] || 'N/A';
+            normalizedStudent.session = student[columnMap.session] || student[columnMap['session']] || student[columnMap['সেশন']] || 'N/A';
+            normalizedStudent.password = student[columnMap.password] || student[columnMap['password']] || student[columnMap['পাসওয়ার্ড']] || '';
+            
+            return normalizedStudent;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchStudentData();
+            setupEventListeners();
+        });
+        
+        async function fetchStudentData() {
+            try {
+                const response = await fetch('https://opensheet.elk.sh/1qvSAeDvqD9W8q04KtFqdqBhDLDu0DPymTsKq82fbPWQ/Form%20Responses%201');
+                if (!response.ok) {
+                    throw new Error('ডেটা লোড করতে সমস্যা হয়েছে');
+                }
+                const rawData = await response.json();
+                
+                studentsData = rawData.map(student => getStudentData(student));
+                
+                if (studentsData.length > 0) {
+                    console.log("First student data:", studentsData[0]);
+                }
+                
+                studentsData.sort((a, b) => {
+                    const rollA = parseInt(a.roll) || 0;
+                    const rollB = parseInt(b.roll) || 0;
+                    return rollA - rollB;
+                });
+                
+                filteredStudents = [...studentsData];
+                renderStudentTable();
+            } catch (error) {
+                console.error('Error fetching student data:', error);
+                loadingIndicator.style.display = 'none';
+                emptyState.style.display = 'block';
+                emptyState.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>ডেটা লোড করতে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।</p>
+                `;
+            }
+        }
+        
+        function renderStudentTable() {
+            loadingIndicator.style.display = 'none';
+            
+            if (filteredStudents.length === 0) {
+                studentTable.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            studentTable.style.display = 'table';
+            emptyState.style.display = 'none';
+            studentTableBody.innerHTML = '';
+            
+            filteredStudents.forEach((student, index) => {
+                const row = document.createElement('tr');
+                
+                const hue = 220 + (index * 5);
+                const lightness = 15 + (index * 0.5);
+                row.style.backgroundColor = `hsla(${hue}, 70%, ${lightness}%, 0.2)`;
+                
+                row.innerHTML = `
+                    <td>${student.roll}</td>
+                    <td>${student.name}</td>
+                `;
+                
+                row.addEventListener('click', () => showIdCard(student));
+                studentTableBody.appendChild(row);
+            });
+        }
+        
+        function setupEventListeners() {
+            searchInput.addEventListener('input', handleSearch);
+            
+            closeIdCard.addEventListener('click', closeIdCardModal);
+            
+            closePasswordModal.addEventListener('click', () => {
+                passwordModalOverlay.classList.remove('active');
+                passwordMessage.innerHTML = '';
+                passwordInput.value = '';
+            });
+            
+            verifyPasswordBtn.addEventListener('click', verifyPassword);
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    verifyPassword();
+                }
+            });
+            
+            closeStudentDataModal.addEventListener('click', () => {
+                studentDataModal.classList.remove('active');
+            });
+        }
+        
+        function closeIdCardModal() {
+            idCardContainer.classList.remove('active');
+            
+            if (renderer) {
+                renderer.dispose();
+                renderer = null;
+            }
+            
+            if (scene) {
+                while(scene.children.length > 0) { 
+                    scene.remove(scene.children[0]); 
+                }
+                scene = null;
+            }
+            
+            if (camera) {
+                camera = null;
+            }
+            
+            if (card) {
+                card = null;
+            }
+            
+            isDragging = false;
+            autoRotate = true;
+            isCardBackVisible = false;
+            
+            if (idCardWrapper.firstChild) {
+                const canvas = idCardWrapper.querySelector('canvas');
+                if (canvas) {
+                    canvas.removeEventListener('mousedown', onMouseDown);
+                    canvas.removeEventListener('mousemove', onMouseMove);
+                    canvas.removeEventListener('mouseup', onMouseUp);
+                    canvas.removeEventListener('mouseleave', onMouseUp);
+                    canvas.removeEventListener('touchstart', onTouchStart);
+                    canvas.removeEventListener('touchmove', onTouchMove);
+                    canvas.removeEventListener('touchend', onTouchEnd);
+                }
+            }
+            
+            window.removeEventListener('resize', onResize);
+        }
+        
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                filteredStudents = [...studentsData];
+            } else {
+                filteredStudents = studentsData.filter(student => {
+                    const roll = student.roll ? student.roll.toString().toLowerCase() : '';
+                    const name = student.name ? student.name.toLowerCase() : '';
+                    
+                    return roll.includes(searchTerm) || name.includes(searchTerm);
+                });
+            }
+            
+            renderStudentTable();
+        }
+        
+        function showIdCard(student) {
+            selectedStudent = student;
+            isCardBackVisible = false;
+            idCardContainer.classList.add('active');
+            
+            initIdCard(student);
+        }
+        
+        function initIdCard(student) {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0f172a);
+            
+            const width = idCardWrapper.clientWidth;
+            const height = idCardWrapper.clientHeight;
+            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+            camera.position.z = 5;
+            
+            renderer = new THREE.WebGLRenderer({ 
+                antialias: true, 
+                alpha: true,
+                devicePixelRatio: Math.min(window.devicePixelRatio, 2)
+            });
+            
+            renderer.setSize(width, height);
+            renderer.domElement.style.borderRadius = "30px";
+            renderer.domElement.style.width = "100%";
+            renderer.domElement.style.height = "100%";
+            renderer.domElement.style.display = "block";
+            
+            const existingCanvas = idCardWrapper.querySelector('canvas');
+            if (existingCanvas) {
+                idCardWrapper.removeChild(existingCanvas);
+            }
+            idCardWrapper.insertBefore(renderer.domElement, idCardWrapper.children[1]);
+            
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            createCard(student);
+            
+            renderer.domElement.addEventListener('mousedown', onMouseDown);
+            renderer.domElement.addEventListener('mousemove', onMouseMove);
+            renderer.domElement.addEventListener('mouseup', onMouseUp);
+            renderer.domElement.addEventListener('mouseleave', onMouseUp);
+            renderer.domElement.addEventListener('touchstart', onTouchStart);
+            renderer.domElement.addEventListener('touchmove', onTouchMove);
+            renderer.domElement.addEventListener('touchend', onTouchEnd);
+            window.addEventListener('resize', onResize);
+            
+            animate();
+        }
+        
+        function createCard(student) {
+            const shape = new THREE.Shape();
+            const width = 2;
+            const height = 1.2;
+            const radius = 0.15;
+            
+            shape.moveTo(-width / 2 + radius, -height / 2);
+            shape.lineTo(width / 2 - radius, -height / 2);
+            shape.quadraticCurveTo(width / 2, -height / 2, width / 2, -height / 2 + radius);
+            shape.lineTo(width / 2, height / 2 - radius);
+            shape.quadraticCurveTo(width / 2, height / 2, width / 2 - radius, height / 2);
+            shape.lineTo(-width / 2 + radius, height / 2);
+            shape.quadraticCurveTo(-width / 2, height / 2, -width / 2, height / 2 - radius);
+            shape.lineTo(-width / 2, -height / 2 + radius);
+            shape.quadraticCurveTo(-width / 2, -height / 2, -width / 2 + radius, -height / 2);
+            
+            const extrudeSettings = {
+                depth: 0.05,
+                bevelEnabled: true,
+                bevelThickness: 0.02,
+                bevelSize: 0.02,
+                bevelSegments: 2
+            };
+            
+            const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+            
+            const frontMat = createFrontMaterial(student);
+            const backMat = createBackMaterial(student);
+            
+            const materials = [
+                new THREE.MeshStandardMaterial({ color: 0x1e293b }),
+                new THREE.MeshStandardMaterial({ color: 0x1e293b }),
+                new THREE.MeshStandardMaterial({ color: 0x1e293b }),
+                new THREE.MeshStandardMaterial({ color: 0x1e293b }),
+                frontMat,
+                backMat,
+            ];
+            
+            card = new THREE.Mesh(geometry, materials);
+            card.rotation.y = Math.PI / 6;
+            card.rotation.x = Math.PI / 12;
+            scene.add(card);
+            
+            addFloatingText(card, student);
+            addBackFloatingText(card, student);
+            
+            createSimSlot();
+        }
+        
+        function createSimSlot() {
+            const simWidth = 0.4;
+            const simHeight = 0.3;
+            const simRadius = 0.1;
+            
+            const simShape = new THREE.Shape();
+            simShape.moveTo(-simWidth / 2 + simRadius, -simHeight / 2);
+            simShape.lineTo(simWidth / 2 - simRadius, -simHeight / 2);
+            simShape.quadraticCurveTo(simWidth / 2, -simHeight / 2, simWidth / 2, -simHeight / 2 + simRadius);
+            simShape.lineTo(simWidth / 2, simHeight / 2 - simRadius);
+            simShape.quadraticCurveTo(simWidth / 2, simHeight / 2, simWidth / 2 - simRadius, simHeight / 2);
+            simShape.lineTo(-simWidth / 2 + simRadius, simHeight / 2);
+            simShape.quadraticCurveTo(-simWidth / 2, simHeight / 2, -simWidth / 2, simHeight / 2 - simRadius);
+            simShape.lineTo(-simWidth / 2, -simHeight / 2 + simRadius);
+            simShape.quadraticCurveTo(-simWidth / 2, -simHeight / 2, -simWidth / 2 + simRadius, -simHeight / 2);
+            
+            const extrudeSettings = {
+                depth: 0.03,
+                bevelEnabled: true,
+                bevelThickness: 0.015,
+                bevelSize: 0.015,
+                bevelSegments: 2,
+            };
+            
+            const geometry = new THREE.ExtrudeGeometry(simShape, extrudeSettings);
+            const material = new THREE.MeshStandardMaterial({
+                color: 0xFFD700,
+                metalness: 1.0,
+                roughness: 0.2,
+            });
+            
+            const simSlotMesh = new THREE.Mesh(geometry, material);
+            simSlotMesh.position.set(0.7, -0.35, 0.03);
+            simSlotMesh.userData = { isSimSlot: true };
+            card.add(simSlotMesh);
+        }
+        
+        function createFrontMaterial(student) {
+            const canvas = document.createElement('canvas');
+            const scale = Math.min(window.devicePixelRatio, 2);
+            canvas.width = 1024 * scale;
+            canvas.height = 640 * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(scale, scale);
+            
+            const gradient = ctx.createLinearGradient(0, 0, 1024, 640);
+            gradient.addColorStop(0, '#0a0a23');
+            gradient.addColorStop(1, '#1a202c');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 1024, 640);
+            
+            ctx.strokeStyle = '#4a5568';
+            ctx.lineWidth = 16;
+            ctx.strokeRect(8, 8, 1024 - 16, 640 - 16);
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(40, 40, 1024 - 80, 640 - 80);
+            
+            ctx.fillStyle = "#e2e8f0";
+            ctx.font = "bold 50px 'Hind Siliguri', sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("ময়মনসিংহ পলিটেকনিক ইনস্টিটিউট", 1024 / 2, 100);
+            
+            ctx.font = "30px 'Hind Siliguri', sans-serif";
+            ctx.fillText("শিক্ষার্থী পরিচয়পত্র", 1024 / 2, 150);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            texture.needsUpdate = true;
+            return new THREE.MeshStandardMaterial({ map: texture });
+        }
+        
+        function createBackMaterial(student) {
+            const canvas = document.createElement('canvas');
+            const scale = Math.min(window.devicePixelRatio, 2);
+            canvas.width = 1024 * scale;
+            canvas.height = 640 * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(scale, scale);
+            
+            const gradient = ctx.createLinearGradient(0, 0, 1024, 640);
+            gradient.addColorStop(0, '#2d3748');
+            gradient.addColorStop(1, '#1a202c');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 1024, 640);
+            
+            ctx.strokeStyle = '#4a5568';
+            ctx.lineWidth = 16;
+            ctx.strokeRect(8, 8, 1024 - 16, 640 - 16);
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(40, 40, 1024 - 80, 640 - 80);
+            
+            ctx.fillStyle = "#e2e8f0";
+            ctx.font = "bold 50px 'Hind Siliguri', sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("ময়মনসিংহ পলিটেকনিক ইনস্টিটিউট", 1024 / 2, 100);
+            ctx.font = "30px 'Hind Siliguri', sans-serif";
+            ctx.fillText("স্থাপিতঃ ১৯৬৩", 1024 / 2, 150);
+            
+            ctx.fillStyle = "#1e293b";
+            ctx.fillRect(1024 / 2 - 75, 200, 150, 150);
+            ctx.strokeStyle = "#94a3b8";
+            ctx.strokeRect(1024 / 2 - 75, 200, 150, 150);
+            
+            ctx.fillStyle = "#cbd5e1";
+            ctx.font = "bold 22px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("LOGO", 1024 / 2, 280);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            texture.needsUpdate = true;
+            return new THREE.MeshStandardMaterial({ map: texture });
+        }
+        
+        function addFloatingText(card, student) {
+            const canvas = document.createElement('canvas');
+            const scale = Math.min(window.devicePixelRatio, 2);
+            canvas.width = 1024 * scale;
+            canvas.height = 512 * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(scale, scale);
+            ctx.clearRect(0, 0, 1024, 512);
+            
+            const studentGender = student.gender ? student.gender.toLowerCase() : 'male';
+            const emoji = (studentGender === 'female' || studentGender === 'মহিলা' || studentGender === 'female') ? '👧' : '👦';
+            
+            ctx.font = '160px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText(emoji, 170, 150);
+            
+            const textX = 380;
+            const textY = 160;
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 45px "Hind Siliguri", sans-serif';
+            ctx.fillText(student.name || 'নাম নেই', textX, textY);
+            
+            ctx.font = 'bold 40px "Hind Siliguri", sans-serif';
+            ctx.fillText(`ROLL: ${student.roll || 'N/A'}`, textX, textY + 60);
+            
+            const deptShort = getDepartmentShortName(student.department);
+            const semester = student.semester || 'N/A';
+            const shift = student.shift || 'N/A';
+            const group = student.group || 'N/A';
+            ctx.fillText(`${semester}/${shift}/${deptShort}-${group}`, textX, textY + 120);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            texture.needsUpdate = true;
+            
+            const geometry = new THREE.PlaneGeometry(2.8, 2.8 * (512 / 1024));
+            const material = new THREE.MeshBasicMaterial({ 
+                map: texture, 
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+            
+            const plane = new THREE.Mesh(geometry, material);
+            plane.position.z = 0.08;
+            plane.renderOrder = 1;
+            
+            card.add(plane);
+        }
+        
+        function addBackFloatingText(card, student) {
+            const canvas = document.createElement('canvas');
+            const scale = Math.min(window.devicePixelRatio, 2);
+            canvas.width = 1024 * scale;
+            canvas.height = 512 * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(scale, scale);
+            ctx.clearRect(0, 0, 1024, 512);
+            
+            ctx.fillStyle = '#e2e8f0';
+            ctx.textAlign = 'center';
+            
+            ctx.font = 'bold 42px "Hind Siliguri", sans-serif';
+            ctx.fillText('Mymensingh Polytechnic Institute', 1024 / 2, 100);
+            
+            ctx.font = 'bold 35px "Hind Siliguri", sans-serif';
+            ctx.fillText('Established: 1963', 1024 / 2, 140);
+            
+            const logoX = 1024 / 2;
+            const logoY = 230;
+            const logoRadius = 75;
+            
+            const gradient = ctx.createLinearGradient(0, logoY - logoRadius, 0, logoY + logoRadius);
+            gradient.addColorStop(0, '#3b82f6');
+            gradient.addColorStop(1, '#60a5fa');
+            
+            ctx.beginPath();
+            ctx.arc(logoX, logoY, logoRadius, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.shadowColor = 'rgba(59, 130, 246, 0.4)';
+            ctx.shadowBlur = 20;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 8;
+            ctx.fill();
+            ctx.closePath();
+            
+            ctx.shadowColor = 'transparent';
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 72px "Hind Siliguri", sans-serif';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('MPI', logoX, logoY + 10);
+            
+            if (isCardBackVisible) {
+                ctx.fillStyle = '#e2e8f0';
+                ctx.font = 'bold 24px "Hind Siliguri", sans-serif';
+                ctx.fillText('ব্যক্তিগত তথ্য', 1024 / 2, logoY + logoRadius + 80);
+                
+                ctx.font = '20px "Hind Siliguri", sans-serif';
+                ctx.textAlign = 'left';
+                
+                const infoX = 1024 / 2 - 200;
+                const infoY = logoY + logoRadius + 120;
+                const lineHeight = 30;
+                
+                ctx.fillText(`জন্ম তারিখ: ${student.dateOfBirth || 'N/A'}`, infoX, infoY);
+                ctx.fillText(`রক্তের গ্রুপ: ${student.bloodGroup || 'N/A'}`, infoX, infoY + lineHeight);
+                ctx.fillText(`মোবাইল: ${student.mobileNumber || 'N/A'}`, infoX, infoY + lineHeight * 2);
+                
+                ctx.fillText(`ঠিকানা:`, infoX, infoY + lineHeight * 3);
+                
+                const address = student.address || 'N/A';
+                const maxWidth = 400;
+                const words = address.split(' ');
+                let line = '';
+                let yPos = infoY + lineHeight * 4;
+                
+                for (let i = 0; i < words.length; i++) {
+                    const testLine = line + words[i] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+                    
+                    if (testWidth > maxWidth && i > 0) {
+                        ctx.fillText(line, infoX, yPos);
+                        line = words[i] + ' ';
+                        yPos += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                ctx.fillText(line, infoX, yPos);
+            }
+            
+            ctx.fillStyle = '#a0aec0';
+            ctx.font = 'bold 40px "Hind Siliguri", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('www.mypolytechnic.edu.bd', 1024 / 2, 512 - 130);
+            ctx.fillText('Phone: +880 1234 567890', 1024 / 2, 512 - 80);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            texture.needsUpdate = true;
+            
+            const geometry = new THREE.PlaneGeometry(2.8, 2.8 * (512 / 1024));
+            const material = new THREE.MeshBasicMaterial({ 
+                map: texture, 
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+            
+            const plane = new THREE.Mesh(geometry, material);
+            plane.position.z = -0.03;
+            plane.rotation.y = Math.PI;
+            plane.renderOrder = 1;
+            
+            card.add(plane);
+        }
+        
+        function onMouseDown(e) {
+            isDragging = true;
+            autoRotate = false;
+            
+            const rect = renderer.domElement.getBoundingClientRect();
+            const mouse = new THREE.Vector2();
+            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            
+            const intersects = raycaster.intersectObjects(card.children, true);
+            
+            for (const intersect of intersects) {
+                if (intersect.object.userData.isSimSlot) {
+                    passwordModalOverlay.classList.add('active');
+                    passwordInput.focus();
+                    return;
+                }
+            }
+            
+            previousMousePosition = {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top,
+            };
+        }
+        
+        function onMouseMove(e) {
+            if (!isDragging) return;
+            
+            const rect = renderer.domElement.getBoundingClientRect();
+            const mousePos = {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top,
+            };
+            
+            const deltaMove = {
+                x: mousePos.x - previousMousePosition.x,
+                y: mousePos.y - previousMousePosition.y,
+            };
+            
+            card.rotation.y += deltaMove.x * 0.01;
+            card.rotation.x += deltaMove.y * 0.01;
+            
+            previousMousePosition = mousePos;
+        }
+        
+        function onMouseUp() {
+            isDragging = false;
+            setTimeout(() => {
+                if (!isDragging) autoRotate = true;
+            }, 3000);
+        }
+        
+        function onTouchStart(e) {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                autoRotate = false;
+                
+                const rect = renderer.domElement.getBoundingClientRect();
+                const touch = e.touches[0];
+                const mouse = new THREE.Vector2();
+                mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+                
+                const raycaster = new THREE.Raycaster();
+                raycaster.setFromCamera(mouse, camera);
+                
+                const intersects = raycaster.intersectObjects(card.children, true);
+                
+                for (const intersect of intersects) {
+                    if (intersect.object.userData.isSimSlot) {
+                        passwordModalOverlay.classList.add('active');
+                        passwordInput.focus();
+                        return;
+                    }
+                }
+                
+                previousMousePosition = {
+                    x: touch.clientX - rect.left,
+                    y: touch.clientY - rect.top,
+                };
+            }
+        }
+        
+        function onTouchMove(e) {
+            if (!isDragging || e.touches.length !== 1) return;
+            
+            const rect = renderer.domElement.getBoundingClientRect();
+            const touch = e.touches[0];
+            const mousePos = {
+                x: touch.clientX - rect.left,
+                y: touch.clientY - rect.top,
+            };
+            
+            const deltaMove = {
+                x: mousePos.x - previousMousePosition.x,
+                y: mousePos.y - previousMousePosition.y,
+            };
+            
+            card.rotation.y += deltaMove.x * 0.01;
+            card.rotation.x += deltaMove.y * 0.01;
+            
+            previousMousePosition = mousePos;
+        }
+        
+        function onTouchEnd() {
+            isDragging = false;
+            setTimeout(() => {
+                if (!isDragging) autoRotate = true;
+            }, 3000);
+        }
+        
+        function onResize() {
+            if (!camera || !renderer) return;
+            
+            const width = idCardWrapper.clientWidth;
+            const height = idCardWrapper.clientHeight;
+            
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            
+            renderer.setSize(width, height);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if (autoRotate && card) {
+                card.rotation.y += 0.005;
+            }
+            
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+        
+        function displayStudentData(student) {
+            studentInfoGrid.innerHTML = '';
+            
+            const infoItems = [
+                { label: 'নাম', value: student.name },
+                { label: 'রোল নম্বর', value: student.roll },
+                { label: 'রেজিস্ট্রেশন নম্বর', value: student.registration },
+                { label: 'জন্ম তারিখ', value: student.dateOfBirth },
+                { label: 'লিঙ্গ', value: student.gender === 'male' || student.gender === 'পুরুষ' ? 'পুরুষ' : (student.gender === 'female' || student.gender === 'মহিলা' ? 'মহিলা' : student.gender) },
+                { label: 'রক্তের গ্রুপ', value: student.bloodGroup },
+                { label: 'মোবাইল নম্বর', value: student.mobileNumber },
+                { label: 'অভিভাবকের মোবাইল', value: student.guardiansMobileNumber },
+                { label: 'ইমেইল', value: student.email },
+                { label: 'ঠিকানা', value: student.address, fullWidth: true },
+                { label: 'সেমিস্টার', value: student.semester },
+                { label: 'শিফট', value: student.shift },
+                { label: 'বিভাগ', value: student.department },
+                { label: 'গ্রুপ', value: student.group },
+                { label: 'সেশন', value: student.session }
+            ];
+            
+            infoItems.forEach(item => {
+                const infoDiv = document.createElement('div');
+                infoDiv.className = item.fullWidth ? 'info-item full-width' : 'info-item';
+                
+                const labelDiv = document.createElement('div');
+                labelDiv.className = 'info-label';
+                labelDiv.textContent = item.label;
+                
+                const valueDiv = document.createElement('div');
+                valueDiv.className = 'info-value';
+                valueDiv.textContent = item.value;
+                
+                infoDiv.appendChild(labelDiv);
+                infoDiv.appendChild(valueDiv);
+                studentInfoGrid.appendChild(infoDiv);
+            });
+            
+            studentDataModal.classList.add('active');
+        }
+        
+        function verifyPassword() {
+            const enteredPassword = passwordInput.value.trim();
+            const correctPassword = selectedStudent ? selectedStudent.password : '';
+            
+            console.log("Entered password:", enteredPassword);
+            console.log("Correct password:", correctPassword);
+            
+            if (enteredPassword === correctPassword) {
+                passwordModalOverlay.classList.remove('active');
+                passwordMessage.innerHTML = '';
+                passwordInput.value = '';
+                
+                displayStudentData(selectedStudent);
+            } else {
+                passwordMessage.innerHTML = '<div class="message error">পাসওয়ার্ড ভুল। আবার চেষ্টা করুন।</div>';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+    </script>
+</body>
+</html>            background: rgba(59, 130, 246, 0.1);
         }
         .student-table tr:last-child td {
             border-bottom: none;
