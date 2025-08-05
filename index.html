@@ -18,6 +18,7 @@
             --border-color: #334155;
             --success-color: #10b981;
             --error-color: #ef4444;
+            --accent-color: #6366f1;
         }
         * {
             margin: 0;
@@ -30,6 +31,10 @@
             color: var(--text-primary);
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
+        }
+        body.no-scroll {
+            overflow: hidden;
         }
         .container {
             max-width: 1200px;
@@ -38,6 +43,17 @@
         header {
             text-align: center;
             margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease;
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         h1 {
             font-size: 2.5rem;
@@ -56,6 +72,13 @@
             margin-bottom: 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            gap: 15px;
+            animation: fadeIn 1s ease 0.2s both;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .search-box {
             width: 100%;
@@ -84,6 +107,31 @@
             transform: translateY(-50%);
             color: var(--text-secondary);
         }
+        .filter-btn {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .filter-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: scale(1.05);
+        }
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
         .table-container {
             background: rgba(30, 41, 59, 0.5);
             border-radius: 15px;
@@ -92,6 +140,7 @@
             margin-bottom: 30px;
             backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
+            animation: fadeIn 1s ease 0.4s both;
         }
         .student-table {
             width: 100%;
@@ -115,6 +164,7 @@
         }
         .student-table tr:hover {
             background: rgba(59, 130, 246, 0.1);
+            transform: translateX(5px);
         }
         .student-table tr:last-child td {
             border-bottom: none;
@@ -168,6 +218,7 @@
             height: 80vh;
             max-height: 700px;
             position: relative;
+            touch-action: none;
         }
         .close-card-btn {
             position: absolute;
@@ -363,6 +414,11 @@
             padding: 15px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .info-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-3px);
         }
         .info-label {
             font-size: 0.85rem;
@@ -382,6 +438,96 @@
             justify-content: center;
             gap: 15px;
             margin-top: 25px;
+        }
+        .filter-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1500;
+            padding: 20px;
+        }
+        .filter-modal-overlay.active {
+            display: flex;
+        }
+        .filter-modal {
+            width: 90%;
+            max-width: 500px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            animation: modalFadeIn 0.3s ease;
+        }
+        .filter-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .filter-select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .filter-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        .filter-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .filter-tag {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .filter-tag i {
+            cursor: pointer;
+            font-size: 0.8rem;
         }
         @media (max-width: 768px) {
             h1 {
@@ -408,6 +554,10 @@
             .student-data-content {
                 padding: 20px;
             }
+            .filter-modal {
+                width: 95%;
+                padding: 20px;
+            }
         }
         @media (max-width: 480px) {
             body {
@@ -420,6 +570,12 @@
             .student-table td {
                 padding: 10px 8px;
                 font-size: 0.85rem;
+            }
+            .search-container {
+                flex-direction: row;
+            }
+            .search-box {
+                max-width: 280px;
             }
         }
     </style>
@@ -435,7 +591,13 @@
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" class="search-input" id="searchInput" placeholder="নাম বা রোল দিয়ে খুঁজুন...">
             </div>
+            <button class="filter-btn" id="filterBtn">
+                <i class="fas fa-filter"></i>
+            </button>
         </div>
+        
+        <div class="active-filters" id="activeFilters"></div>
+        
         <div class="table-container">
             <div class="loading" id="loadingIndicator">
                 <div class="spinner"></div>
@@ -456,6 +618,69 @@
             </div>
         </div>
     </div>
+    
+    <div class="filter-modal-overlay" id="filterModalOverlay">
+        <div class="filter-modal">
+            <div class="modal-header">
+                <h3 class="filter-title">ফিল্টার করুন</h3>
+                <button class="close-btn" id="closeFilterModal">&times;</button>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label" for="semesterFilter">সেমিস্টার:</label>
+                <select class="filter-select" id="semesterFilter">
+                    <option value="">All Semester</option>
+                    <option value="1st">1st</option>
+                    <option value="2nd">2nd</option>
+                    <option value="3rd">3rd</option>
+                    <option value="4th">4th</option>
+                    <option value="5th">5th</option>
+                    <option value="6th">6th</option>
+                    <option value="7th">7th</option>
+                    <option value="8th">8th</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label" for="shiftFilter">শিফট:</label>
+                <select class="filter-select" id="shiftFilter">
+                    <option value="">All Shift</option>
+                    <option value="1st">Morning</option>
+                    <option value="2nd">Day</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label" for="departmentFilter">টেকনোলজি:</label>
+                <select class="filter-select" id="departmentFilter">
+                    <option value="">All Department</option>
+                    <option value="CST">CST</option>
+                    <option value="CT">CT</option>
+                    <option value="MT">MT</option>
+                    <option value="ET">ET</option>
+                    <option value="EnT">EnT</option>
+                    <option value="PT">PT</option>
+                    <option value="EMT">EMT</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label" for="groupFilter">গ্রুপ:</label>
+                <select class="filter-select" id="groupFilter">
+                    <option value="">All group</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="btn btn-secondary" id="clearFilters">ক্লিয়ার করুন</button>
+                <button class="btn btn-primary" id="applyFilters">প্রয়োগ করুন</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="id-card-container" id="idCardContainer">
         <div id="id-card-wrapper">
             <button class="close-card-btn" id="closeIdCard">&times;</button>
@@ -503,6 +728,12 @@
         let previousMousePosition = { x: 0, y: 0 };
         let autoRotate = true;
         let isCardBackVisible = false;
+        let activeFilters = {
+            semester: '',
+            shift: '',
+            department: '',
+            group: ''
+        };
         
         const loadingIndicator = document.getElementById('loadingIndicator');
         const studentTable = document.getElementById('studentTable');
@@ -522,6 +753,17 @@
         const studentDataModal = document.getElementById('studentDataModal');
         const studentInfoGrid = document.getElementById('studentInfoGrid');
         const closeStudentDataModal = document.getElementById('closeStudentDataModal');
+        
+        const filterBtn = document.getElementById('filterBtn');
+        const filterModalOverlay = document.getElementById('filterModalOverlay');
+        const closeFilterModal = document.getElementById('closeFilterModal');
+        const semesterFilter = document.getElementById('semesterFilter');
+        const shiftFilter = document.getElementById('shiftFilter');
+        const departmentFilter = document.getElementById('departmentFilter');
+        const groupFilter = document.getElementById('groupFilter');
+        const applyFilters = document.getElementById('applyFilters');
+        const clearFilters = document.getElementById('clearFilters');
+        const activeFiltersContainer = document.getElementById('activeFilters');
         
         function getDepartmentShortName(department) {
             if (!department) return 'N/A';
@@ -617,6 +859,46 @@
                     return rollA - rollB;
                 });
                 
+                // Normalize student data for filtering
+                studentsData = studentsData.map(student => {
+                    // Normalize semester
+                    if (student.semester) {
+                        const semesterMatch = student.semester.match(/(\d+)/);
+                        if (semesterMatch) {
+                            const semesterNum = parseInt(semesterMatch[1]);
+                            if (semesterNum >= 1 && semesterNum <= 8) {
+                                student.semester = `${semesterNum}${getOrdinalSuffix(semesterNum)}`;
+                            }
+                        }
+                    }
+                    
+                    // Normalize shift
+                    if (student.shift) {
+                        const shiftMatch = student.shift.match(/(\d+)/);
+                        if (shiftMatch) {
+                            const shiftNum = parseInt(shiftMatch[1]);
+                            if (shiftNum === 1 || shiftNum === 2) {
+                                student.shift = `${shiftNum}${getOrdinalSuffix(shiftNum)}`;
+                            }
+                        }
+                    }
+                    
+                    // Normalize department
+                    if (student.department) {
+                        student.department = getDepartmentShortName(student.department);
+                    }
+                    
+                    // Normalize group
+                    if (student.group) {
+                        const groupMatch = student.group.match(/[ABC]/i);
+                        if (groupMatch) {
+                            student.group = groupMatch[0].toUpperCase();
+                        }
+                    }
+                    
+                    return student;
+                });
+                
                 filteredStudents = [...studentsData];
                 renderStudentTable();
             } catch (error) {
@@ -628,6 +910,17 @@
                     <p>ডেটা লোড করতে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।</p>
                 `;
             }
+        }
+        
+        function getOrdinalSuffix(num) {
+            const suffixes = ["st", "nd", "rd", "th"];
+            const remainder = num % 100;
+            
+            if (remainder >= 11 && remainder <= 13) {
+                return "th";
+            }
+            
+            return suffixes[(num % 10) - 1] || "th";
         }
         
         function renderStudentTable() {
@@ -681,10 +974,116 @@
             closeStudentDataModal.addEventListener('click', () => {
                 studentDataModal.classList.remove('active');
             });
+            
+            // Filter modal event listeners
+            filterBtn.addEventListener('click', () => {
+                filterModalOverlay.classList.add('active');
+            });
+            
+            closeFilterModal.addEventListener('click', () => {
+                filterModalOverlay.classList.remove('active');
+            });
+            
+            applyFilters.addEventListener('click', () => {
+                activeFilters.semester = semesterFilter.value;
+                activeFilters.shift = shiftFilter.value;
+                activeFilters.department = departmentFilter.value;
+                activeFilters.group = groupFilter.value;
+                
+                applyActiveFilters();
+                filterModalOverlay.classList.remove('active');
+            });
+            
+            clearFilters.addEventListener('click', () => {
+                semesterFilter.value = '';
+                shiftFilter.value = '';
+                departmentFilter.value = '';
+                groupFilter.value = '';
+                
+                activeFilters = {
+                    semester: '',
+                    shift: '',
+                    department: '',
+                    group: ''
+                };
+                
+                applyActiveFilters();
+                filterModalOverlay.classList.remove('active');
+            });
+        }
+        
+        function applyActiveFilters() {
+            // Update filter button state
+            const hasActiveFilters = Object.values(activeFilters).some(value => value !== '');
+            filterBtn.classList.toggle('active', hasActiveFilters);
+            
+            // Display active filters
+            displayActiveFilters();
+            
+            // Apply filters to student data
+            filteredStudents = studentsData.filter(student => {
+                const matchesSearch = searchInput.value === '' || 
+                    student.roll.toLowerCase().includes(searchInput.value.toLowerCase()) || 
+                    student.name.toLowerCase().includes(searchInput.value.toLowerCase());
+                
+                const matchesSemester = !activeFilters.semester || student.semester === activeFilters.semester;
+                const matchesShift = !activeFilters.shift || student.shift === activeFilters.shift;
+                const matchesDepartment = !activeFilters.department || student.department === activeFilters.department;
+                const matchesGroup = !activeFilters.group || student.group === activeFilters.group;
+                
+                return matchesSearch && matchesSemester && matchesShift && matchesDepartment && matchesGroup;
+            });
+            
+            renderStudentTable();
+        }
+        
+        function displayActiveFilters() {
+            activeFiltersContainer.innerHTML = '';
+            
+            if (activeFilters.semester) {
+                const semesterText = semesterFilter.options[semesterFilter.selectedIndex].text;
+                const tag = createFilterTag('সেমিস্টার', semesterText, 'semester');
+                activeFiltersContainer.appendChild(tag);
+            }
+            
+            if (activeFilters.shift) {
+                const shiftText = shiftFilter.options[shiftFilter.selectedIndex].text;
+                const tag = createFilterTag('শিফট', shiftText, 'shift');
+                activeFiltersContainer.appendChild(tag);
+            }
+            
+            if (activeFilters.department) {
+                const departmentText = departmentFilter.options[departmentFilter.selectedIndex].text;
+                const tag = createFilterTag('বিভাগ', departmentText, 'department');
+                activeFiltersContainer.appendChild(tag);
+            }
+            
+            if (activeFilters.group) {
+                const groupText = groupFilter.options[groupFilter.selectedIndex].text;
+                const tag = createFilterTag('গ্রুপ', groupText, 'group');
+                activeFiltersContainer.appendChild(tag);
+            }
+        }
+        
+        function createFilterTag(label, value, type) {
+            const tag = document.createElement('div');
+            tag.className = 'filter-tag';
+            tag.innerHTML = `
+                ${label}: ${value}
+                <i class="fas fa-times" data-type="${type}"></i>
+            `;
+            
+            tag.querySelector('i').addEventListener('click', () => {
+                activeFilters[type] = '';
+                applyActiveFilters();
+            });
+            
+            return tag;
         }
         
         function closeIdCardModal() {
             idCardContainer.classList.remove('active');
+            document.body.classList.remove('no-scroll');
             
             if (renderer) {
                 renderer.dispose();
@@ -727,26 +1126,14 @@
         }
         
         function handleSearch() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            
-            if (searchTerm === '') {
-                filteredStudents = [...studentsData];
-            } else {
-                filteredStudents = studentsData.filter(student => {
-                    const roll = student.roll ? student.roll.toString().toLowerCase() : '';
-                    const name = student.name ? student.name.toLowerCase() : '';
-                    
-                    return roll.includes(searchTerm) || name.includes(searchTerm);
-                });
-            }
-            
-            renderStudentTable();
+            applyActiveFilters();
         }
         
         function showIdCard(student) {
             selectedStudent = student;
             isCardBackVisible = false;
             idCardContainer.classList.add('active');
+            document.body.classList.add('no-scroll');
             
             initIdCard(student);
         }
